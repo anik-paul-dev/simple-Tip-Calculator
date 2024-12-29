@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Tip Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card {
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    .result-card {
+      background-color: #e9ecef;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+    #result strong {
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Advanced Tip Calculator</h1>
+    <div class="card p-4 shadow">
+      <div class="mb-3">
+        <label for="billAmount" class="form-label">Bill Amount ($)</label>
+        <input type="number" class="form-control" id="billAmount" placeholder="Enter bill amount" min="0">
+      </div>
+      <div class="mb-3">
+        <label for="tipPercentage" class="form-label">Tip Percentage (%)</label>
+        <input type="number" class="form-control" id="tipPercentage" placeholder="Enter tip percentage" min="0" max="100">
+      </div>
+      <div class="mb-3">
+        <label for="numPeople" class="form-label">Number of People</label>
+        <input type="number" class="form-control" id="numPeople" placeholder="Enter number of people" min="1">
+      </div>
+      <button id="calculateButton" class="btn btn-primary w-100">Calculate Tip</button>
+      <div id="result" class="result-card mt-4 text-center d-none">
+        <p><strong>Total Tip:</strong> $<span id="totalTip">0.00</span></p>
+        <p><strong>Tip Per Person:</strong> $<span id="tipPerPerson">0.00</span></p>
+        <p><strong>Total Amount Per Person:</strong> $<span id="totalPerPerson">0.00</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const billInput = document.getElementById('billAmount');
+    const tipInput = document.getElementById('tipPercentage');
+    const peopleInput = document.getElementById('numPeople');
+    const calculateButton = document.getElementById('calculateButton');
+    const resultCard = document.getElementById('result');
+    const totalTipEl = document.getElementById('totalTip');
+    const tipPerPersonEl = document.getElementById('tipPerPerson');
+    const totalPerPersonEl = document.getElementById('totalPerPerson');
+
+    calculateButton.addEventListener('click', () => {
+      const billAmount = parseFloat(billInput.value);
+      const tipPercentage = parseFloat(tipInput.value);
+      const numPeople = parseInt(peopleInput.value);
+
+      if (isNaN(billAmount) || isNaN(tipPercentage) || isNaN(numPeople) || billAmount <= 0 || tipPercentage < 0 || numPeople <= 0) {
+        alert('Please enter valid inputs for all fields.');
+        return;
+      }
+
+      const totalTip = (billAmount * tipPercentage) / 100;
+      const tipPerPerson = totalTip / numPeople;
+      const totalPerPerson = (billAmount + totalTip) / numPeople;
+
+      totalTipEl.textContent = totalTip.toFixed(2);
+      tipPerPersonEl.textContent = tipPerPerson.toFixed(2);
+      totalPerPersonEl.textContent = totalPerPerson.toFixed(2);
+
+      resultCard.classList.remove('d-none');
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
